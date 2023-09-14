@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="board/layout/defaultLayout">
+
+<th:block layout:fragment="title">
+  <title>Weather</title>
+</th:block>
+
+<th:block layout:fragment="content">
+
+
+<head>
+  <meta charset="UTF-8">
+
+
+  <h3>/getWeather</h3>
+  <title>getWeather</title>
+  <br>
+  <h3>현재 주소 /getWeather</h3>
+
+  <a href="/weather">날씨 선택  /weather</a>
+  </br>
+  <a href="/"> 처음으로 / </a>
+  </br>
+  <a href="/weatherList"> 날씨 목록 </a>
+</head>
+<body>
+
+</body>
+
+</th:block>
+</html>
