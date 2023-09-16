@@ -13,6 +13,37 @@
   <br>
   <h3>현재 주소 /weatherList</h3>
 
+
+  <table >
+    <tr>
+      <td>지역1</td>
+      <td>지역2</td>
+      <td>온도</td>
+      <td>습도</td>
+      <td>강수량</td>
+      <td>마지막 업데이트 시간</td>
+    </tr>
+
+
+
+  </table>
+
+
+
+
+  <form action="/weatherList" method="post">
+    <input type="hidden" name="_method" value="delete"/>
+
+
+  <select name="listId" th:value="${key}">
+    <option th:each="i : ${#numbers.sequence(0,key)}" th:value="${i}" th:text="${i}"></option>
+  </select>
+    <button type="submit">삭제</button>
+  </form>
+
+
+
+
   <a href="/weather">날씨 선택  /weather</a>
   </br>
   <a href="/"> 처음으로 / </a>

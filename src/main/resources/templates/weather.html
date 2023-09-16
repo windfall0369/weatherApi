@@ -16,42 +16,45 @@
 
 
 
-  <form action= "/getWeather"   method="POST">
+  <form action= "/getWeather"   method="get">
     <div class="form-group">
 
-      <select id="step1" class="emptyCheck" title="시/도">
+      <select class="emptyCheck" title="시/도">
         <option id="city" value="">시/도</option>
         <option  value="서울특별시">서울특별시</option>
       </select>
 
-      <select id="step2">
-        <option value=1 name="location">종로구</option>
-<!--        <option value=2 name="location">중구</option>-->
-<!--        <option value=3 name="location">용산구</option>-->
-<!--        <option value=4 name="location">성동구</option>-->
-<!--        <option value=5 name="location">광진구</option>-->
-<!--        <option value=6 name="location">동대문구</option>-->
-<!--        <option value=7 name="location">중랑구</option>-->
-<!--        <option value=8 name="location">성북구</option>-->
-<!--        <option value=9 name="location">강북구</option>-->
-<!--        <option value=10 name="location">도봉구</option>-->
-<!--        <option value=11 name="location">노원구</option>-->
-<!--        <option value=12 name="location">은평구</option>-->
-<!--        <option value=13 name="location">서대문구</option>-->
-<!--        <option value=14 name="location">마포구</option>-->
-<!--        <option value=15 name="location">양천구</option>-->
-<!--        <option value=16 name="location">강서구</option>-->
-<!--        <option value=17 name="location">구로구</option>-->
-<!--        <option value=19 name="location">금천구</option>-->
-<!--        <option value=19 name="location">영등포구</option>-->
-<!--        <option value=20 name="location">동작구</option>-->
-<!--        <option value=21 name="location">관악구</option>-->
-<!--        <option value=22 name="location">서초구</option>-->
-<!--        <option value=23 name="location">강남구</option>-->
-<!--        <option value=24 name="location">송파구</option>-->
-<!--        <option value=25 name="location">강동구</option>-->
+      <select name="location">
+        <option value=1>종로구</option>
+        <option value=2>중구</option>
+        <option value=3>용산구</option>
+        <option value=4>성동구</option>
+        <option value=5>광진구</option>
+        <option value=6>동대문구</option>
+        <option value=7>중랑구</option>
+        <option value=8>성북구</option>
+        <option value=9>강북구</option>
+        <option value=10>도봉구</option>
+        <option value=11>노원구</option>
+        <option value=12>은평구</option>
+        <option value=13>서대문구</option>
+        <option value=14>마포구</option>
+        <option value=15>양천구</option>
+        <option value=16>강서구</option>
+        <option value=17>구로구</option>
+        <option value=19>금천구</option>
+        <option value=19>영등포구</option>
+        <option value=20>동작구</option>
+        <option value=21>관악구</option>
+        <option value=22>서초구</option>
+        <option value=23>강남구</option>
+        <option value=24>송파구</option>
+        <option value=25>강동구</option>
 
       </select>
+
+<!--      <input type="text" name="location">-->
+
 
       <select id="time" class="emptyCheck" title="시간">
         <option value="" selected>시간</option>

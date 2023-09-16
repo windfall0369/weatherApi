@@ -4,6 +4,7 @@ package project.weather.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder.In;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -20,6 +22,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +32,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import project.weather.Region;
 import project.weather.Weather;
+import project.weather.dto.WeatherForm;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@Transactional
 public class GetWeatherController {
 
     private final EntityManager em;
@@ -44,18 +49,14 @@ public class GetWeatherController {
 //        &base_date=20230910&base_time=0600&nx=55&ny=127
 
 
+    Weather weather = new Weather();
+
+
     @GetMapping("/getWeather")
-    public String getWeather() {
-
-        System.out.println("getMapping 작동");
-        return "index";
-
-    }
-
-    @PostMapping("/getWeather")
     @Transactional
-    public String getWeather(@RequestParam(required = false, name = "location") Integer location)
-        throws IOException {
+    public String getWeather(WeatherForm weatherForm) throws IOException {
+
+        Long location = Long.parseLong(weatherForm.getLocation());
 
         log.info("location = " + location);
         System.out.println("location = " + location);
@@ -79,11 +80,12 @@ public class GetWeatherController {
 
         Region regionInfo = em.find(Region.class, location);
 
-//        nx = (regionInfo.getNx());
-//        ny = (regionInfo.getNy());
+        nx = (regionInfo.getNx());
+        ny = (regionInfo.getNy());
 
-        nx = 60;
-        ny = 127;
+        String region1 = regionInfo.getRegion1();
+        String region2 = regionInfo.getRegion2();
+
 
         try {
             urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + serviceKey);
@@ -133,9 +135,9 @@ public class GetWeatherController {
             System.out.println("data = " + data);
             System.out.println("=============================");
 
-            String temp = null;
-            String humid = null;
-            String rainAmount = null;
+            double temp =0;
+            double humid = 0;
+            double rainAmount = 0;
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
@@ -151,24 +153,31 @@ public class GetWeatherController {
 
                 switch (category) {
                     case "T1H":
-                        temp = obsrValue;
+                        temp = Double.parseDouble(obsrValue);
                         break;
                     case "RN1":
-                        rainAmount = obsrValue;
+                        rainAmount = Double.parseDouble(obsrValue);
                         break;
                     case "REH":
-                        humid = obsrValue;
+                        humid = Double.parseDouble(obsrValue);
                         break;
                 }
             }
 
-            Weather weather = new Weather(temp, rainAmount, humid, currentChangeTime);
 
-            System.out.println("location 의 현재 날씨 = " + location);
+
+//            Weather weather = new Weather(temp, rainAmount, humid, currentChangeTime);
+            weather = new Weather(region1,region2,temp, rainAmount, humid, currentChangeTime);
+
+
+            System.out.println("위치 = " + location);
+            System.out.println("weather.getRegion1() = " + weather.getRegion1());
+            System.out.println("weather.getRegion2() = " + weather.getRegion2());
             System.out.println("weather.getTemp() = " + weather.getTemp());
             System.out.println("weather.getHumid() = " + weather.getHumid());
             System.out.println("weather.getRainAmount() = " + weather.getRainAmount());
             System.out.println("weather.getLastUpdateTIme() = " + weather.getLastUpdateTIme());
+
             return "getWeather";
 
         } catch (IOException e) {
@@ -178,7 +187,18 @@ public class GetWeatherController {
             throw new RuntimeException(e);
         }
 
-
     }
+
+    @PostMapping("/getWeather")
+    public String saveWeather() {
+        em.persist(weather);
+
+        return "index";
+    }
+
+
+
+
+
 
 }
