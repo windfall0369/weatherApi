@@ -27,7 +27,7 @@ public class WeatherListController {
     public String getWeatherList(Model model) {
 
         Object singleResult = em.createQuery("select count (w.id) FROM Weather w").getSingleResult();
-        em.createQuery("select w.id from Weather w where ")
+        em.createQuery("select w.id from Weather w ");
         Long result = (Long) singleResult;
         System.out.println("리스트 SUM = " + result);
 
@@ -38,13 +38,20 @@ public class WeatherListController {
 
     @Transactional
     @PostMapping("/weatherList")
-    public String deleteWeather(@RequestParam(value = "listId")Long key) {
+    public String deleteWeather(@RequestParam(value = "listId")Long key, Model model) {
+
+
 
         System.out.println("key(listId) = " + key);
         Weather weather1 = em.find(Weather.class, key);
         em.remove(weather1);
         System.out.println("============delete query complete===============");
 
+        Object singleResult = em.createQuery("select count (w.id) FROM Weather w").getSingleResult();
+        em.createQuery("select w.id from Weather w ");
+        Long result = (Long) singleResult;
+        model.addAttribute("key", result);
+        
         return "/weatherList";
     }
 
