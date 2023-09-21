@@ -1,5 +1,10 @@
 package project.weather.dto;
 
+
+//dto 쓰는 이유
+//dao 등
+//추상적 개념
+
 public class WeatherForm {
 
     private String location;

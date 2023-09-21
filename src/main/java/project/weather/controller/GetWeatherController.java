@@ -42,6 +42,15 @@ public class GetWeatherController {
 
     private final EntityManager em;
 
+
+
+    //서비스키는 환경변수로 선언, 별개의 파일로 application.yml
+    //알고 써야됨, 역할을 아는가
+    //경쟁력 = 아는가 / 모르는가 차이
+    //장,단 부작용, 용도 등
+
+
+
     private String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
 
 //    http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
@@ -51,6 +60,9 @@ public class GetWeatherController {
 
     Weather weather = new Weather();
 
+    //접근 제어자 private/ public
+    //static  class 변수
+    //디테일
 
     @GetMapping("/getWeather")
     @Transactional
@@ -85,6 +97,7 @@ public class GetWeatherController {
 
         String region1 = regionInfo.getRegion1();
         String region2 = regionInfo.getRegion2();
+
 
 
         try {
@@ -146,6 +159,9 @@ public class GetWeatherController {
             JSONObject items = (JSONObject) body.get("items");
             JSONArray item = (JSONArray) items.get("item");
 
+
+
+            //변수명 (디테일)
             for (int i = 0; i < item.size(); i++) {
                 JSONObject obj = (JSONObject) item.get(i);
                 String category = (String) obj.get("category");
@@ -162,7 +178,10 @@ public class GetWeatherController {
                         humid = Double.parseDouble(obsrValue);
                         break;
                 }
+
+                //switch , if 차이
             }
+
 
 
 
@@ -186,6 +205,8 @@ public class GetWeatherController {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        //service - controller 분리
+        //계층 분리
 
     }
 
