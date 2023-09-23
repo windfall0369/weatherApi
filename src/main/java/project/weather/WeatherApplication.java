@@ -20,7 +20,13 @@ import project.weather.controller.ResetRegionController;
 @SpringBootApplication
 public class WeatherApplication {
 
+
+
+
 	public static void main(String[] args) throws Exception {
+
+
+
 
 
 		SpringApplication.run(WeatherApplication.class, args);

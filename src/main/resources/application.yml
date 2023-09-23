@@ -7,6 +7,9 @@ spring:
     batch:
       initialize-schema: always
 
+  serviceKey : kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D
+
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -14,3 +17,4 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+

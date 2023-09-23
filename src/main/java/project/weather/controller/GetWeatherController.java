@@ -19,6 +19,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -51,14 +52,15 @@ public class GetWeatherController {
 
 
 
-    private String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
+//    private String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
+    @Value("${serviceKey}")
+    private final String serviceKey;
 
 //    http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
 //        ?serviceKey=kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D&numOfRows=10&pageNo=1&dataType=JSON
 //        &base_date=20230910&base_time=0600&nx=55&ny=127
 
 
-    Weather weather = new Weather();
 
     //접근 제어자 private/ public
     //static  class 변수
@@ -97,6 +99,10 @@ public class GetWeatherController {
 
         String region1 = regionInfo.getRegion1();
         String region2 = regionInfo.getRegion2();
+
+
+
+        https://dapi.kakao.com/v2/local/search/address.json?
 
 
 
@@ -186,7 +192,7 @@ public class GetWeatherController {
 
 
 //            Weather weather = new Weather(temp, rainAmount, humid, currentChangeTime);
-            weather = new Weather(region1,region2,temp, rainAmount, humid, currentChangeTime);
+            final Weather weather = new Weather(region1,region2,temp, rainAmount, humid, currentChangeTime);
 
 
             System.out.println("위치 = " + location);
