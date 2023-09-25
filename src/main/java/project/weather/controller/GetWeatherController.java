@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import project.weather.Region;
 import project.weather.Weather;
 import project.weather.dto.WeatherForm;
 
@@ -54,7 +53,7 @@ public class GetWeatherController {
 
 //    private String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
 
-    //    http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
+//        http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
 //        ?serviceKey=kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D&numOfRows=10&pageNo=1&dataType=JSON
 //        &base_date=20230910&base_time=0600&nx=55&ny=127
 

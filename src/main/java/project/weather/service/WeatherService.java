@@ -20,7 +20,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.weather.Region;
 import project.weather.Weather;
 import project.weather.dto.WeatherForm;
 
@@ -39,16 +38,23 @@ public class WeatherService {
     private EntityManager em;
 
 
-    public String readWeather(WeatherForm weatherForm) {
+    public String readWeather(GetNxNy location) {
 
 
-        Long location = Long.parseLong(weatherForm.getLocation());
+
 
         log.info("location = " + location);
+
+        //좌표
+        int nx = location.getX();
+        int ny = location.getY();
+
         System.out.println("location = " + location);
+
 
         StringBuilder urlBuilder = new StringBuilder(
             "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst");
+
 
         //시간
         LocalDateTime now = LocalDateTime.now();
@@ -60,14 +66,9 @@ public class WeatherService {
         }
 
         String hourStr = hour + "00";
-        int nx;
-        int ny;
         String currentChangeTime = now.format(DateTimeFormatter.ofPattern("yy.MM.dd ")) + hour;
 
-        Region regionInfo = em.find(Region.class, location);
 
-        nx = (regionInfo.getNx());
-        ny = (regionInfo.getNy());
 
         String region1 = regionInfo.getRegion1();
         String region2 = regionInfo.getRegion2();

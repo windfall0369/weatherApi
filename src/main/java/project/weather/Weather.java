@@ -12,20 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Weather {
 
 
-    public Weather(String region1, String region2, double temp, double rainAmount, double humid,
-        String lastUpdateTIme) {
-        this.region1 = region1;
-        this.region2 = region2;
-        this.temp = temp;
-        this.rainAmount = rainAmount;
-        this.humid = humid;
-        this.lastUpdateTIme = lastUpdateTIme;
-    }
 
     @Id
     @GeneratedValue
@@ -33,6 +24,7 @@ public class Weather {
 
     private String region1;
     private String region2;
+    private String region3;
     private double temp;
     private double rainAmount;
     private double humid;

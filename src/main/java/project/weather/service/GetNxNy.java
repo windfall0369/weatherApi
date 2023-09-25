@@ -7,10 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class NxNy {
+public class GetNxNy {
 
-        private String x;
-        private String y;
+        private int x;
+        private int y;
+
+
 }

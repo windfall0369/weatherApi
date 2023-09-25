@@ -17,37 +17,40 @@ public class RegionService {
 
     private final String uri = "https://dapi.kakao.com/v2/local/search/address.json";
 
-    @Value("0d8be49f5ef38bbf0e7a8fb3610fc5ca")
+    @Value("${serviceKey}")
+    private String localServieKey;
 
-    private String kakaoLocalKey;
 
-    public NxNy getCoordinate(){
+    public GetNxNy getCoordinate(String addresss){
         RestTemplate restTemplate = new RestTemplate();
 
-        String apiKey = "KakaoAK " + kakaoLocalKey;
-        String address = "서울시 강남구 테헤란로 131";
+        String apiKey = "KakaoAK " + localServieKey;
+        String location = addresss;
 
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", apiKey);
-        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", apiKey);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
         UriComponents uriComponents = UriComponentsBuilder
             .fromHttpUrl(uri)
-            .queryParam("query",address)
+            .queryParam("query",location)
             .build();
 
         ResponseEntity<String> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, String.class);
 
-        // API Response로부터 body 뽑아내기
+        // API Response json parsing
         String body = response.getBody();
         JSONObject json = new JSONObject(body);
-        // body에서 좌표 뽑아내기
+        // body에서 좌표 추출
         JSONArray documents = json.getJSONArray("documents");
-        String x = documents.getJSONObject(0).getString("x");
-        String y = documents.getJSONObject(0).getString("y");
+        int x = (Integer.parseInt(documents.getJSONObject(0).getString("x"))/1);
+        int y = (Integer.parseInt(documents.getJSONObject(0).getString("y"))/1);
 
-        return new NxNy(x, y);
+        System.out.println("x = " + x);
+        System.out.println("y = " + y);
+
+        return new GetNxNy(x, y);
     }
 
 
