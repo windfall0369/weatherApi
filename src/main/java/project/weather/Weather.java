@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
@@ -37,60 +38,5 @@ public class Weather {
     private double humid;
     private String lastUpdateTIme;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRegion1() {
-        return region1;
-    }
-
-    public void setRegion1(String region1) {
-        this.region1 = region1;
-    }
-
-    public String getRegion2() {
-        return region2;
-    }
-
-    public void setRegion2(String region2) {
-        this.region2 = region2;
-    }
-
-    public double getTemp() {
-        return temp;
-    }
-
-    public void setTemp(int temp) {
-        this.temp = temp;
-    }
-
-    public double getRainAmount() {
-        return rainAmount;
-    }
-
-    public void setRainAmount(int rainAmount) {
-        this.rainAmount = rainAmount;
-    }
-
-    public double getHumid() {
-        return humid;
-    }
-
-    public void setHumid(int humid) {
-        this.humid = humid;
-    }
-
-    public String getLastUpdateTIme() {
-        return lastUpdateTIme;
-    }
-
-    public void setLastUpdateTIme(String lastUpdateTIme) {
-        this.lastUpdateTIme = lastUpdateTIme;
-    }
 }
 

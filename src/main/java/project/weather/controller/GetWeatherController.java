@@ -53,13 +53,15 @@ public class GetWeatherController {
 
 
 //    private String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
-    @Value("${serviceKey}")
-    private final String serviceKey;
 
-//    http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
+    //    http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
 //        ?serviceKey=kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D&numOfRows=10&pageNo=1&dataType=JSON
 //        &base_date=20230910&base_time=0600&nx=55&ny=127
 
+
+
+    @Value("${serviceKey}")
+    private final String serviceKey;
 
 
     //접근 제어자 private/ public
@@ -217,7 +219,7 @@ public class GetWeatherController {
     }
 
     @PostMapping("/getWeather")
-    public String saveWeather() {
+    public String saveWeather(Weather weather) {
         em.persist(weather);
 
         return "index";
