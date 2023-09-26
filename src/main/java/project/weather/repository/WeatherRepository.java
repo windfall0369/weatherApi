@@ -26,9 +26,5 @@ public class WeatherRepository {
             .getResultList();
     }
 
-//    public List<Weather> findByRegion() {
-//
-//    }
-
 
 }

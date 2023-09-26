@@ -12,11 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
-@AllArgsConstructor
 public class Weather {
-
-
 
     @Id
     @GeneratedValue
@@ -28,7 +26,7 @@ public class Weather {
     private double temp;
     private double rainAmount;
     private double humid;
-    private String lastUpdateTIme;
+    private String lastUpdateTime;
 
 }
 

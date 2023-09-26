@@ -10,51 +10,48 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.weather.Weather;
-import project.weather.dto.WeatherForm;
+import project.weather.repository.WeatherRepository;
 
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class WeatherService {
 
 
+    @Autowired
+    WeatherRepository weatherRepository;
 
-    @Value("${serviceKey}")
-    private final String serviceKey;
+
+//    @Value("${serviceKey}")
+    private final String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
 
     @PersistenceContext
     private EntityManager em;
 
 
-    public String readWeather(GetNxNy location) {
 
-
-
+    //단기예보 조회
+    public Weather readWeather(LocationInfo location) {
 
         log.info("location = " + location);
 
         //좌표
         int nx = location.getX();
         int ny = location.getY();
-
         System.out.println("location = " + location);
 
 
-        StringBuilder urlBuilder = new StringBuilder(
-            "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst");
-
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst");
 
         //시간
         LocalDateTime now = LocalDateTime.now();
@@ -68,16 +65,10 @@ public class WeatherService {
         String hourStr = hour + "00";
         String currentChangeTime = now.format(DateTimeFormatter.ofPattern("yy.MM.dd ")) + hour;
 
-
-
-        String region1 = regionInfo.getRegion1();
-        String region2 = regionInfo.getRegion2();
-
-
-
-        https://dapi.kakao.com/v2/local/search/address.json?
-
-
+        //주소지
+        String region1 = location.getRegion1();
+        String region2 = location.getRegion2();
+        String region3 = location.getReigon3();
 
         try {
             urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + serviceKey);
@@ -139,8 +130,6 @@ public class WeatherService {
             JSONArray item = (JSONArray) items.get("item");
 
 
-
-            //변수명 (디테일)
             for (int i = 0; i < item.size(); i++) {
                 JSONObject obj = (JSONObject) item.get(i);
                 String category = (String) obj.get("category");
@@ -162,9 +151,17 @@ public class WeatherService {
             }
 
 
+            Weather weather = new Weather();
 
+            weather.setRegion1(region1);
+            weather.setRegion2(region2);
+            weather.setRegion3(region3);
+            weather.setTemp(temp);
+            weather.setRainAmount(rainAmount);
+            weather.setHumid(humid);
+            weather.setLastUpdateTime(currentChangeTime);
 
-            final Weather weather = new Weather(region1,region2,temp, rainAmount, humid, currentChangeTime);
+            weatherRepository.save(weather);
 
 
             System.out.println("위치 = " + location);
@@ -173,15 +170,24 @@ public class WeatherService {
             System.out.println("weather.getTemp() = " + weather.getTemp());
             System.out.println("weather.getHumid() = " + weather.getHumid());
             System.out.println("weather.getRainAmount() = " + weather.getRainAmount());
-            System.out.println("weather.getLastUpdateTIme() = " + weather.getLastUpdateTIme());
+            System.out.println("weather.getLastUpdateTIme() = " + weather.getLastUpdateTime());
 
-            return "getWeather";
+
+            weatherRepository.save(weather);
+
+            return weather;
 
         } catch (IOException e) {
             System.out.println("error");
-            return "error";
+
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+
+        return null;
     }
+
+
+
+
 }

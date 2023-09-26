@@ -1,40 +1,55 @@
 package project.weather.controller;
 
-import javax.persistence.EntityManager;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.weather.Weather;
 import project.weather.dto.RegionForm;
-import project.weather.dto.WeatherForm;
-import project.weather.service.GetNxNy;
+import project.weather.service.LocationInfo;
 import project.weather.service.RegionService;
 import project.weather.service.WeatherService;
 
 
 @Controller
 @RequestMapping("/weather")
-@RequiredArgsConstructor
 public class WeatherController {
 
 
-    @GetMapping
-    public String getWeather(RegionForm regionForm) {
+    @PostMapping
+    public String getWeather(RegionForm regionForm, Model model) {
 
         String address = regionForm.getAddress();
 
         RegionService regionService = new RegionService();
-        GetNxNy location = regionService.getCoordinate(address);
+        LocationInfo location = regionService.getCoordinate(address);
 
         WeatherService weatherService = new WeatherService();
-        weatherService.readWeather(location);
+        Weather weather = weatherService.readWeather(location);
 
+        //text box에서 주소 받아옴 -> local Api로 좌표 추출 -> 기상청 Api로 날씨 조회 및  weather 반환
 
-        return "weather";
+        
+
+        model.addAttribute("region1", weather.getRegion1());
+        model.addAttribute("region2", weather.getRegion2());
+        model.addAttribute("region3", weather.getRegion3());
+        model.addAttribute("temp", weather.getTemp());
+        model.addAttribute("rainAmount", weather.getRainAmount());
+        model.addAttribute("humid", weather.getHumid());
+        model.addAttribute("lastUpdateTime", weather.getLastUpdateTime());
+
+        return "weatherForecast";
     }
+
+
+
+
+
+
+
 
 
 

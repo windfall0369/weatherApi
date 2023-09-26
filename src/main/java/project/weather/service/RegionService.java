@@ -21,11 +21,11 @@ public class RegionService {
     private String localServieKey;
 
 
-    public GetNxNy getCoordinate(String addresss){
+    public LocationInfo getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + localServieKey;
-        String location = addresss;
+        String location = address;
 
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
         HttpHeaders headers = new HttpHeaders();
@@ -47,10 +47,20 @@ public class RegionService {
         int x = (Integer.parseInt(documents.getJSONObject(0).getString("x"))/1);
         int y = (Integer.parseInt(documents.getJSONObject(0).getString("y"))/1);
 
+        String fullAddress = documents.getJSONObject(0).getString("address_name");
+        String region1 = documents.getJSONObject(0).getString("region_1depth_name");
+        String region2 = documents.getJSONObject(0).getString("region_2depth_name");
+        String region3 = documents.getJSONObject(0).getString("region_3depth_name");
+
+        System.out.println("address = " + fullAddress);
+        System.out.println("region1 = " + region1);
+        System.out.println("region2 = " + region2);
+        System.out.println("region3 = " + region3);
+
         System.out.println("x = " + x);
         System.out.println("y = " + y);
 
-        return new GetNxNy(x, y);
+        return new LocationInfo(x, y, region1, region2, region3);
     }
 
 
