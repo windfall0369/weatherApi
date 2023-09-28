@@ -8,17 +8,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.weather.Weather;
 import project.weather.repository.WeatherRepository;
 
@@ -28,19 +25,15 @@ import project.weather.repository.WeatherRepository;
 public class WeatherService {
 
 
-    @Autowired
-    WeatherRepository weatherRepository;
+
+    private WeatherRepository weatherRepository;
 
 
-//    @Value("${serviceKey}")
     private final String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
-
-    @PersistenceContext
-    private EntityManager em;
-
 
 
     //단기예보 조회
+    @Transactional
     public Weather readWeather(LocationInfo location) {
 
         log.info("location = " + location);
@@ -91,6 +84,8 @@ public class WeatherService {
 
             URL url = new URL(urlBuilder.toString());
             log.info("request url : {}", url);
+
+
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -153,6 +148,8 @@ public class WeatherService {
 
             Weather weather = new Weather();
 
+
+
             weather.setRegion1(region1);
             weather.setRegion2(region2);
             weather.setRegion3(region3);
@@ -161,21 +158,21 @@ public class WeatherService {
             weather.setHumid(humid);
             weather.setLastUpdateTime(currentChangeTime);
 
-            weatherRepository.save(weather);
 
-
-            System.out.println("위치 = " + location);
+            System.out.println("weather.getId() = " + weather.getId());
             System.out.println("weather.getRegion1() = " + weather.getRegion1());
             System.out.println("weather.getRegion2() = " + weather.getRegion2());
+            System.out.println("weather.getRegion3() = " + weather.getRegion3());
             System.out.println("weather.getTemp() = " + weather.getTemp());
-            System.out.println("weather.getHumid() = " + weather.getHumid());
             System.out.println("weather.getRainAmount() = " + weather.getRainAmount());
-            System.out.println("weather.getLastUpdateTIme() = " + weather.getLastUpdateTime());
+            System.out.println("weather.getHumid() = " + weather.getHumid());
+            System.out.println("weather.getLastUpdateTime() = " + weather.getLastUpdateTime());
 
-
+            //id 값이 없어서 (=Null)이라 NPE 터짐
             weatherRepository.save(weather);
 
-            return weather;
+            return weatherRepository.findOne(weather.getId());
+
 
         } catch (IOException e) {
             System.out.println("error");

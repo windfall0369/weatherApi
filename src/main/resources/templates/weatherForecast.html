@@ -7,21 +7,24 @@
 
 
 
+
+<head>
+
 <body>
 
-<h1>weatherForecest.html</h1>
+<h1>weatherForecast.html</h1>
 <h1>주소 /weather</h1>
 
 
 <h1> 검색 결과 </h1>
 
-<p>지역구1</p>
-<p>지역구2</p>
-<P>지역구3</P>
-<p>온도</p>
-<p>습도</p>
-<p>강수량</p>
-<p>마지막 업데이트</p>
+<p th:text="${region1}">지역구1</p>
+<p th:text="${region2}">지역구2</p>
+<p th:text="${region3}">지역구3</p>
+<p th:text="${temp}">온도</p>
+<p th:text="${humid}">습도</p>
+<p th:text="${rainAmount}">강수량</p>
+<p th:text="${lastUpdateTime}">마지막 업데이트</p>
 
 <a href="/">처음으로</a>
 <br>

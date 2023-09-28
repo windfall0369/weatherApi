@@ -1,5 +1,6 @@
 package project.weather.service;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,15 +18,14 @@ public class RegionService {
 
     private final String uri = "https://dapi.kakao.com/v2/local/search/address.json";
 
-    @Value("${serviceKey}")
-    private String localServieKey;
+//    @Value("${serviceKey}")
+    private String localServiceKey ="0d8be49f5ef38bbf0e7a8fb3610fc5ca";
 
 
     public LocationInfo getCoordinate(String address){
         RestTemplate restTemplate = new RestTemplate();
 
-        String apiKey = "KakaoAK " + localServieKey;
-        String location = address;
+        String apiKey = "KakaoAK " + localServiceKey;
 
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
         HttpHeaders headers = new HttpHeaders();
@@ -34,8 +34,9 @@ public class RegionService {
 
         UriComponents uriComponents = UriComponentsBuilder
             .fromHttpUrl(uri)
-            .queryParam("query",location)
+            .queryParam("query",address)
             .build();
+
 
         ResponseEntity<String> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, String.class);
 
@@ -44,23 +45,43 @@ public class RegionService {
         JSONObject json = new JSONObject(body);
         // body에서 좌표 추출
         JSONArray documents = json.getJSONArray("documents");
-        int x = (Integer.parseInt(documents.getJSONObject(0).getString("x"))/1);
-        int y = (Integer.parseInt(documents.getJSONObject(0).getString("y"))/1);
+
+//        int x = (Integer.parseInt(documents.getJSONObject(0).getString("x"))/1);
+//        int x = (int) (Long.parseLong(documents.getJSONObject(0).getString("x"))/1);
+
+        Double x = Double.parseDouble(documents.getJSONObject(0).getString("x"));
+        Double y = Double.parseDouble(documents.getJSONObject(0).getString("y"));
+
+        x = x/1;
+        y = y/1;
+
+        int nx = x.intValue();
+        int ny = y.intValue();
+
+
+
+
 
         String fullAddress = documents.getJSONObject(0).getString("address_name");
-        String region1 = documents.getJSONObject(0).getString("region_1depth_name");
-        String region2 = documents.getJSONObject(0).getString("region_2depth_name");
-        String region3 = documents.getJSONObject(0).getString("region_3depth_name");
+
+        String region1 = documents.getJSONObject(0).getJSONObject("address")
+            .getString("region_1depth_name");
+
+        String region2 = documents.getJSONObject(0).getJSONObject("address")
+            .getString("region_2depth_name");
+
+        String region3 = documents.getJSONObject(0).getJSONObject("address")
+            .getString("region_3depth_name");
+
 
         System.out.println("address = " + fullAddress);
         System.out.println("region1 = " + region1);
         System.out.println("region2 = " + region2);
         System.out.println("region3 = " + region3);
+        System.out.println("x = " + nx);
+        System.out.println("y = " + ny);
 
-        System.out.println("x = " + x);
-        System.out.println("y = " + y);
-
-        return new LocationInfo(x, y, region1, region2, region3);
+        return new LocationInfo(nx, ny, region1, region2, region3);
     }
 
 

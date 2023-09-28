@@ -13,7 +13,6 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import project.weather.controller.ResetRegionController;
 import project.weather.service.RegionService;
 
 
