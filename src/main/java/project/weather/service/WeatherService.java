@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -24,8 +25,7 @@ import project.weather.repository.WeatherRepository;
 @Service
 public class WeatherService {
 
-
-
+    
     private WeatherRepository weatherRepository;
 
 
@@ -159,6 +159,7 @@ public class WeatherService {
             weather.setLastUpdateTime(currentChangeTime);
 
 
+
             System.out.println("weather.getId() = " + weather.getId());
             System.out.println("weather.getRegion1() = " + weather.getRegion1());
             System.out.println("weather.getRegion2() = " + weather.getRegion2());
@@ -170,8 +171,6 @@ public class WeatherService {
 
             //id 값이 없어서 (=Null)이라 NPE 터짐
             weatherRepository.save(weather);
-
-            return weatherRepository.findOne(weather.getId());
 
 
         } catch (IOException e) {
