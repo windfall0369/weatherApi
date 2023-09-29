@@ -12,16 +12,17 @@ import lombok.Setter;
 @Setter
 public class WeatherForm {
 
-    private String address;
+
+    private String region1;
+    private String region2;
+    private String region3;
+    private double temp;
+    private double humid;
+    private double rainAmount;
+    private String lastUpdateTime;
 
 
-    public WeatherForm(String address) {
-        this.address = address;
-    }
 
-    @Override
-    public String toString() {
-        return "address" + address;
-    }
+
 
 }

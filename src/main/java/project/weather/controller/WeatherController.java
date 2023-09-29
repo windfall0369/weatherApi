@@ -1,6 +1,7 @@
 package project.weather.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,14 @@ import project.weather.service.LocationInfo;
 import project.weather.service.RegionService;
 import project.weather.service.WeatherService;
 
-
+@Slf4j
 @Controller
 @RequestMapping("/weather")
-
+@RequiredArgsConstructor
 public class WeatherController {
+
+    private final WeatherService weatherService;
+
 
 
     @GetMapping
@@ -38,15 +42,15 @@ public class WeatherController {
 
         System.out.println("regionService.getCoordinate(address) 실행");
 
-        WeatherService weatherService = new WeatherService();
         Weather weather = weatherService.readWeather(location);
 
         System.out.println("weatherService.readWeather(location) 실행");
+        log.info("weather = {}",weather);
+        System.out.println("weather = " + weather);
 
         //text box에서 주소 받아옴 -> local Api로 좌표 추출 -> 기상청 Api로 날씨 조회 및  weather 반환
 
-
-
+        model.addAttribute("id",weather.getId());
         model.addAttribute("region1", weather.getRegion1());
         model.addAttribute("region2", weather.getRegion2());
         model.addAttribute("region3", weather.getRegion3());

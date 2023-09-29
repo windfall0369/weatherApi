@@ -24,30 +24,15 @@
 
 
     <tr>
-      <td>지</td>
-      <td>지</td>
-      <td>온</td>
-      <td>습</td>
-      <td>강수</td>
-      <td>마지막</td>
+      <td th:text="region1">지역1</td>
+      <td th:text="region2">지역2</td>
+      <td th:text="region3">지역3</td>
+      <td th:text="temp">온도</td>
+      <td th:text="humid">습도</td>
+      <td th:text="rainAmount">강수량</td>
+      <td th:text="lastUpdateTime">마지막 업데이트 시간</td>
     </tr>
-
-
-
   </table>
-
-
-
-
-  <form action="/weatherList" method="post">
-    <input type="hidden" name="_method" value="delete"/>
-
-
-  <select name="listId" th:value="${key}">
-    <option th:each="i : ${#numbers.sequence(0,key)}" th:value="${i}" th:text="${i}"></option>
-  </select>
-    <button type="submit">삭제</button>
-  </form>
 
 
 

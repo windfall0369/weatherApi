@@ -18,6 +18,7 @@
 
 <h1> 검색 결과 </h1>
 
+<p th:text="${id}">id</p>
 <p th:text="${region1}">지역구1</p>
 <p th:text="${region2}">지역구2</p>
 <p th:text="${region3}">지역구3</p>
@@ -25,6 +26,11 @@
 <p th:text="${humid}">습도</p>
 <p th:text="${rainAmount}">강수량</p>
 <p th:text="${lastUpdateTime}">마지막 업데이트</p>
+
+
+<form action="/weatherList" method="post">
+  <input type="button"> 저장
+</form>
 
 <a href="/">처음으로</a>
 <br>

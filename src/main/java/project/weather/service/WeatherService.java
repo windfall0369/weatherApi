@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -23,10 +22,14 @@ import project.weather.repository.WeatherRepository;
 
 @Slf4j
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class WeatherService {
 
-    
-    private WeatherRepository weatherRepository;
+
+    private final WeatherRepository weatherRepository;
+
+
 
 
     private final String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
@@ -35,6 +38,7 @@ public class WeatherService {
     //단기예보 조회
     @Transactional
     public Weather readWeather(LocationInfo location) {
+
 
         log.info("location = " + location);
 
@@ -50,6 +54,10 @@ public class WeatherService {
         LocalDateTime now = LocalDateTime.now();
         String yyyyMMdd = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         int hour = now.getHour();
+
+
+
+
         int min = now.getMinute();
         if (min <= 40) {
             hour -= 1;
@@ -77,7 +85,7 @@ public class WeatherService {
                 "&" + URLEncoder.encode("base_date", "UTF-8") + "=" + URLEncoder.encode(yyyyMMdd,
                     "UTF-8"));
             urlBuilder.append(
-                "&" + URLEncoder.encode("base_time", "UTF-8") + "=" + URLEncoder.encode(hourStr,
+                "&" + URLEncoder.encode("base_time", "UTF-8") + "=" + "0"+URLEncoder.encode(hourStr,
                     "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("nx", "UTF-8") + "=" + nx);
             urlBuilder.append("&" + URLEncoder.encode("ny", "UTF-8") + "=" + ny);
@@ -169,9 +177,12 @@ public class WeatherService {
             System.out.println("weather.getHumid() = " + weather.getHumid());
             System.out.println("weather.getLastUpdateTime() = " + weather.getLastUpdateTime());
 
-            //id 값이 없어서 (=Null)이라 NPE 터짐
-            weatherRepository.save(weather);
 
+            //id 값이 없어서 (=Null)이라 NPE 터짐
+
+
+
+            return weather;
 
         } catch (IOException e) {
             System.out.println("error");
