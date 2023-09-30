@@ -2,10 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Hello</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-
-
 
 
 <head>
@@ -18,24 +16,35 @@
 
 <h1> 검색 결과 </h1>
 
-<p th:text="${id}">id</p>
-<p th:text="${region1}">지역구1</p>
-<p th:text="${region2}">지역구2</p>
-<p th:text="${region3}">지역구3</p>
-<p th:text="${temp}">온도</p>
-<p th:text="${humid}">습도</p>
-<p th:text="${rainAmount}">강수량</p>
-<p th:text="${lastUpdateTime}">마지막 업데이트</p>
+
+<table border="1" bgcolor="aqua">
+  <tr>
+    <th>지역구1</th>
+    <th>지역구2</th>
+    <th>지역구3</th>
+    <th>온도</th>
+    <th>습도</th>
+    <th>강수량</th>
+    <th>마지막 업데이트 시간</th>
+  </tr>
+  <tr>
+    <td th:name="region1" th:text="${region1}"></td>
+    <td th:name="region2" th:text="${region2}"></td>
+    <td th:name="region3" th:text="${region3}"></td>
+    <td th:name="temp" th:text="${temp}"></td>
+    <td th:name="humid" th:text="${humid}"></td>
+    <td th:name="rainAmount" th:text="${rainAmount}"></td>
+    <td th:name="lastUpdateTime" th:text="${lastUpdateTime}"></td>
+  </tr>
+</table>
 
 
-<form action="/weatherList" method="post">
-  <input type="button"> 저장
-</form>
 
 <a href="/">처음으로</a>
 <br>
+<a href="/weather">일기예보 조회</a>
 <a href="/weatherList">일기예보 저장 목록</a>
 <br>
 
 </body>
-</html>
+</head></html>

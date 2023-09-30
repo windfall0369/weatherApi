@@ -14,34 +14,53 @@
   <h3>현재 주소 /weatherList</h3>
 
 
-  <table  border="1">
-    <th>지역1</th>
-    <th>지역2</th>
-    <th>온도</th>
-    <th>습도</th>
-    <th>강수량</th>
-    <th>마지막 업데이트 시간</th>
 
 
+
+  <table border="1" bgcolor="#fff8dc">
+    <thead>
     <tr>
-      <td th:text="region1">지역1</td>
-      <td th:text="region2">지역2</td>
-      <td th:text="region3">지역3</td>
-      <td th:text="temp">온도</td>
-      <td th:text="humid">습도</td>
-      <td th:text="rainAmount">강수량</td>
-      <td th:text="lastUpdateTime">마지막 업데이트 시간</td>
+      <th>id</th>
+      <th>지역구1</th>
+      <th>지역구2</th>
+      <th>지역구3</th>
+      <th>온도</th>
+      <th>습도</th>
+      <th>강수량</th>
+      <th>마지막 업데이트 시간</th>
     </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="weather : ${weathers}">
+      <td th:text="${weather.id}"></td>
+      <td th:text="${weather.region1}"></td>
+      <td th:text="${weather.region2}"></td>
+      <td th:text="${weather.region3}"></td>
+      <td th:text="${weather.temp}"></td>
+      <td th:text="${weather.humid}"></td>
+      <td th:text="${weather.rainAmount}"></td>
+      <td th:text="${weather.lastUpdateTime}"></td>
+    </tr>
+    </tbody>
+
   </table>
 
+  <form method="post" action="/weatherList">
+
+    <select>
+      <option th:each="weather : ${weathers}" th:value="${weather.getId()}" name="weatherId"></option>
+    </select>
+
+    <input type="submit" value="삭제">
+  </form>
 
 
 
-  <a href="/weather">날씨 선택  /weather</a>
+  <a href="/weather">일기예보 조회  /weather</a>
   </br>
   <a href="/"> 처음으로 / </a>
   </br>
-  <a href="/api/weather"> 날씨 조회 </a>
 
 
 </th:block>

@@ -4,10 +4,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.weather.Weather;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class WeatherRepository {
 
 
@@ -25,6 +27,10 @@ public class WeatherRepository {
     public List<Weather> findAll() {
         return em.createQuery("select w from Weather w", Weather.class)
             .getResultList();
+    }
+
+    public void delete(Long weatherId) {
+        em.remove(weatherId);
     }
 
 

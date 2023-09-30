@@ -181,6 +181,7 @@ public class WeatherService {
             //id 값이 없어서 (=Null)이라 NPE 터짐
 
 
+            weatherRepository.save(weather);
 
             return weather;
 

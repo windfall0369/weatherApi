@@ -3,6 +3,7 @@ package project.weather.controller;
 import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -14,6 +15,8 @@ import project.weather.Weather;
 import project.weather.dto.WeatherForm;
 import project.weather.repository.WeatherRepository;
 
+
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/weatherList")
@@ -26,36 +29,25 @@ public class WeatherListController {
     @GetMapping
     public String getWeatherList(Model model) {
 
-        List weatherList = em.createQuery("select w from Weather w ").getResultList();
+        log.info("GetMapping -> weatherList.html");
 
-        Object singleResult = em.createQuery("select w from Weather w where w.id=1L").getSingleResult();
+        List<Weather> weatherList = em.createQuery("select w from Weather w ").getResultList();
 
-        
+        model.addAttribute("weathers", weatherList);
 
         return "weatherList";
     }
 
 
     @PostMapping
-    public String saveWeather(WeatherForm weatherForm) {
+    public String deleteWeather(WeatherForm weatherForm, @RequestParam(name = "weatherId")String id) {
 
-        System.out.println("PostMapping -> weatherList.html");
+        Long weatherId = Long.valueOf(id);
+        weatherRepository.delete(weatherId);
 
-        Weather weather = new Weather();
+        
 
-        weather.setRegion1(weatherForm.getRegion1());
-        weather.setRegion2(weatherForm.getRegion2());
-        weather.setRegion3(weatherForm.getRegion3());
-        weather.setTemp(weatherForm.getTemp());
-        weather.setRainAmount(weather.getRainAmount());
-        weather.setHumid(weatherForm.getHumid());
-        weather.setLastUpdateTime(weatherForm.getLastUpdateTime());
-
-        weatherRepository.save(weather);
-
-
-
-        return "/weatherList";
+        return "weatherList";
     }
 
 

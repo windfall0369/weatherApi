@@ -46,7 +46,6 @@ public class WeatherController {
 
         System.out.println("weatherService.readWeather(location) 실행");
         log.info("weather = {}",weather);
-        System.out.println("weather = " + weather);
 
         //text box에서 주소 받아옴 -> local Api로 좌표 추출 -> 기상청 Api로 날씨 조회 및  weather 반환
 
@@ -58,6 +57,7 @@ public class WeatherController {
         model.addAttribute("rainAmount", weather.getRainAmount());
         model.addAttribute("humid", weather.getHumid());
         model.addAttribute("lastUpdateTime", weather.getLastUpdateTime());
+
 
         return "weatherForecast";
     }
