@@ -19,6 +19,7 @@ import project.weather.repository.WeatherRepository;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@Transactional
 @RequestMapping("/weatherList")
 public class WeatherListController {
 
@@ -40,14 +41,16 @@ public class WeatherListController {
 
 
     @PostMapping
-    public String deleteWeather(WeatherForm weatherForm, @RequestParam(name = "weatherId")String id) {
+    public String deleteWeather(@RequestParam(name = "weatherId") String weatherId) {
 
-        Long weatherId = Long.valueOf(id);
-        weatherRepository.delete(weatherId);
+        System.out.println("weatherId = " + weatherId);
+        Long id = Long.parseLong(weatherId);
+        Weather weather = em.find(Weather.class, id);
+        weatherRepository.delete(weather);
 
-        
 
-        return "weatherList";
+
+        return "redirect:weatherList";
     }
 
 

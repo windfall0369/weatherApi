@@ -46,18 +46,17 @@
 
   </table>
 
-  <form method="post" action="/weatherList">
-
-    <select>
-      <option th:each="weather : ${weathers}" th:value="${weather.getId()}" name="weatherId"></option>
-    </select>
+  <form method="post" action="/weatherList" id="weatherForm">
 
     <input type="submit" value="삭제">
   </form>
 
+  <select form="weatherForm" name="weatherId">
+    <option th:each="weather : ${weathers}" th:value="${weather.getId()}" th:text="${weather.getId()}"></option>
+  </select>
 
 
-  <a href="/weather">일기예보 조회  /weather</a>
+  <a href="/weather">일기예보 조회</a>
   </br>
   <a href="/"> 처음으로 / </a>
   </br>

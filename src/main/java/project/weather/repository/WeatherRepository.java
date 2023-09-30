@@ -29,8 +29,9 @@ public class WeatherRepository {
             .getResultList();
     }
 
-    public void delete(Long weatherId) {
-        em.remove(weatherId);
+    public void delete(Weather weather) {
+        em.remove(weather);
+
     }
 
 
