@@ -20,6 +20,7 @@ import project.weather.service.WeatherService;
 public class WeatherController {
 
     private final WeatherService weatherService;
+    private final RegionService regionService;
 
 
 
@@ -37,7 +38,6 @@ public class WeatherController {
 
         String address = regionForm.getAddress();
 
-        RegionService regionService = new RegionService();
         LocationInfo location = regionService.getCoordinate(address);
 
         System.out.println("regionService.getCoordinate(address) 실행");

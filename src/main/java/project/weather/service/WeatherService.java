@@ -14,6 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.weather.Weather;
@@ -30,15 +31,15 @@ public class WeatherService {
     private final WeatherRepository weatherRepository;
 
 
-
-
-    private final String serviceKey = "kQkDPvw2TDmPAFD7HvgUb31WyyKpPrzI%2BH%2BXoELvejXjWxJb1H5gIaZAdwhv%2FjuqyJ9OSdPYQYSCKhKEp3E7TA%3D%3D";
+    @Value("${weatherApiServiceKey}")
+    private String weatherServiceKey;
 
 
     //단기예보 조회
     @Transactional
     public Weather readWeather(LocationInfo location) {
 
+        System.out.println("weatherServiceKey = " + weatherServiceKey);
 
         log.info("location = " + location);
 
@@ -72,7 +73,8 @@ public class WeatherService {
         String region3 = location.getReigon3();
 
         try {
-            urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + serviceKey);
+            urlBuilder.append(
+                "?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + weatherServiceKey);
             urlBuilder.append(
                 "&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10",
                     "UTF-8"));
@@ -176,9 +178,6 @@ public class WeatherService {
             System.out.println("weather.getRainAmount() = " + weather.getRainAmount());
             System.out.println("weather.getHumid() = " + weather.getHumid());
             System.out.println("weather.getLastUpdateTime() = " + weather.getLastUpdateTime());
-
-
-            //id 값이 없어서 (=Null)이라 NPE 터짐
 
 
             weatherRepository.save(weather);

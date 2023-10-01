@@ -1,6 +1,5 @@
 package project.weather.service;
 
-import javax.persistence.criteria.CriteriaBuilder.In;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,11 +17,14 @@ public class RegionService {
 
     private final String uri = "https://dapi.kakao.com/v2/local/search/address.json";
 
-//    @Value("${serviceKey}")
-    private String localServiceKey ="0d8be49f5ef38bbf0e7a8fb3610fc5ca";
+    @Value("${localApiServiceKey}")
+    private String localServiceKey;
 
 
-    public LocationInfo getCoordinate(String address){
+    public LocationInfo getCoordinate(String address) {
+
+        System.out.println("localServiceKey = " + localServiceKey);
+
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + localServiceKey;
